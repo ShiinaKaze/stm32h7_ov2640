@@ -1,0 +1,8 @@
+../Drivers/DSP/Components/ov2640/sccb.c:21:6:SIO_D_SetInput	32	static
+../Drivers/DSP/Components/ov2640/sccb.c:30:6:SIO_D_SetOutput	32	static
+../Drivers/DSP/Components/ov2640/sccb.c:39:6:SWSCCB_Start	8	static
+../Drivers/DSP/Components/ov2640/sccb.c:51:6:SWSCCB_Stop	8	static
+../Drivers/DSP/Components/ov2640/sccb.c:62:9:SWSCCB_WriteByte	24	static
+../Drivers/DSP/Components/ov2640/sccb.c:88:9:SWSCCB_ReadByte	16	static
+../Drivers/DSP/Components/ov2640/sccb.c:113:6:SWSCCB_WriteReg	16	static
+../Drivers/DSP/Components/ov2640/sccb.c:122:9:SWSCCB_ReadReg	24	static

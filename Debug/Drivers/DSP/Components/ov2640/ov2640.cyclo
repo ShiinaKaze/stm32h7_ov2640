@@ -1,0 +1,9 @@
+../Drivers/DSP/Components/ov2640/ov2640.c:22:6:OV2640_HW_Reset	1
+../Drivers/DSP/Components/ov2640/ov2640.c:30:6:OV2640_SetPowerDownMode	2
+../Drivers/DSP/Components/ov2640/ov2640.c:39:10:OV2640_GetPID	1
+../Drivers/DSP/Components/ov2640/ov2640.c:47:10:OV2640_GetMID	1
+../Drivers/DSP/Components/ov2640/ov2640.c:55:6:OV2640_InitConfig	2
+../Drivers/DSP/Components/ov2640/ov2640.c:62:6:OV2640_SetOutputJPEG	3
+../Drivers/DSP/Components/ov2640/ov2640.c:74:6:OV2640_SetOutputSize	1
+../Drivers/DSP/Components/ov2640/ov2640.c:91:6:OV2640_SetClockDivision	1
+../Drivers/DSP/Components/ov2640/ov2640.c:98:6:OV2640_Init	1
