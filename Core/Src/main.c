@@ -53,12 +53,12 @@ UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
-uint32_t jpeg_buffer[JPEG_BUFFER_NUM][JPEG_BUFFER_LENGTH] = { 0 };
-uint32_t *pjpeg_buffer = jpeg_buffer[0];
-//uint8_t jpeg_buffer_index = 0;
+uint32_t jpeg_buffer[JPEG_BUFFER_LENGTH] = { 0 };
+uint8_t usart_buffer[USART_BUFFER_LENGTH] = { 0 };
+uint32_t *pjpeg_buffer = jpeg_buffer;
+uint8_t *pusart_buffer = usart_buffer;
 __IO uint8_t jpeg_new_frame = 0;
 
-uint8_t *pusart_buffer = (uint8_t*) jpeg_buffer[1];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,38 +122,35 @@ int main(void) {
 	/* USER CODE BEGIN WHILE */
 	while (1) {
 		if (jpeg_new_frame) {
-			uint8_t *ptemp_buffer = (uint8_t*) jpeg_buffer[0];
+			uint8_t *ptemp_buffer = (uint8_t*) pjpeg_buffer;
+
+			memcpy(pusart_buffer, ptemp_buffer, USART_BUFFER_LENGTH);
+			HAL_UART_Transmit_DMA(&huart1, pusart_buffer, USART_BUFFER_LENGTH);
+			jpeg_new_frame = 0;
 
 //			uint32_t jpeg_index = 0;
 //			uint8_t *pjpeg_start = NULL;
 //			uint32_t jpeg_length = 0;
 //			for (uint32_t i = 0; i < USART_BUFFER_LENGTH; i++) {
-//				if (ptemp_buffer[i] == 0xFF && ptemp_buffer[i + 1] == 0xD8) {
+//				if (pusart_buffer[i] == 0xFF && pusart_buffer[i + 1] == 0xD8) {
 //					jpeg_index = i;
-//					pjpeg_start = &ptemp_buffer[i];
+//					pjpeg_start = &pusart_buffer[i];
 //					break;
 //				}
 //			}
 //
 //			if (pjpeg_start != NULL) {
-//				for (uint32_t i = USART_BUFFER_LENGTH; i > 0; i--) {
-//					if (ptemp_buffer[i] == 0xD9 && ptemp_buffer[i - 1] == 0xFF) {
-//						jpeg_length = i - jpeg_index + 2;
+//				for (uint32_t i = USART_BUFFER_LENGTH; i > jpeg_index; i--) {
+//					if (pusart_buffer[i - 1] == 0xFF && pusart_buffer[i] == 0xD9) {
+//						jpeg_length = i - jpeg_index + 1;
 //						break;
 //					}
 //				}
 //			}
+//
 //			if (pjpeg_start != NULL && jpeg_length > 0) {
-//				memcpy(pusart_buffer, pjpeg_start, jpeg_length);
 //				HAL_UART_Transmit_DMA(&huart1, pjpeg_start, jpeg_length);
-//				pjpeg_start = NULL;
-//				jpeg_length = 0;
 //			}
-
-			memcpy(pusart_buffer, ptemp_buffer, USART_BUFFER_LENGTH);
-			HAL_UART_Transmit_DMA(&huart1, pusart_buffer, USART_BUFFER_LENGTH);
-
-			jpeg_new_frame = 0;
 
 		}
 		/* USER CODE END WHILE */
@@ -362,39 +359,9 @@ static void MX_GPIO_Init(void) {
 /* USER CODE BEGIN 4 */
 
 void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi) {
-	jpeg_new_frame = 1;
-
-//	jpeg_buffer_index++;
-//	if (jpeg_buffer_index > JPEG_BUFFER_NUM) {
-//		jpeg_buffer_index = 0;
-//	}
-//	pjpeg_buffer = jpeg_buffer[jpeg_buffer_index];
-
-//	uint32_t jpeg_index = 0;
-//	for (uint32_t i = 0; i < JPEG_BUFFER_LENGTH * 4; i++) {
-//		if (pjpeg_buffer[i] == 0xFF && pjpeg_buffer[i + 1] == 0xD8) {
-//			jpeg_index = i;
-//			pjpeg_start = &pjpeg_buffer[i];
-//			break;
-//		}
-//	}
-//
-//	if (pjpeg_start != NULL) {
-//		for (uint32_t i = jpeg_index; i < JPEG_BUFFER_LENGTH * 4; i++) {
-//			if (pjpeg_buffer[i] == 0xFF && pjpeg_buffer[i + 1] == 0xD9) {
-//				jpeg_length = i - jpeg_index + 2;
-//				break;
-//			}
-//		}
-//	}
-//
-//	if (pjpeg_start != NULL && jpeg_length > 0) {
-//		HAL_UART_Transmit_DMA(&huart1, pjpeg_start, jpeg_length);
-//		pjpeg_start = NULL;
-//		jpeg_length = 0;
-//	}
-//	jpeg_new_frame = 1;
-
+	if (jpeg_new_frame == 0) {
+		jpeg_new_frame = 1;
+	}
 }
 
 /* USER CODE END 4 */

@@ -62,8 +62,8 @@ all: main-build
 main-build: demo_ov2640.elf secondary-outputs
 
 # Tool invocations
-demo_ov2640.elf demo_ov2640.map: $(OBJS) $(USER_OBJS) D:\Development\Projects\STM32CubeIDE\workspace\demo_ov2640\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "demo_ov2640.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Development\Projects\STM32CubeIDE\workspace\demo_ov2640\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="demo_ov2640.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+demo_ov2640.elf demo_ov2640.map: $(OBJS) $(USER_OBJS) C:\Users\ShiinaKaze\Desktop\demo_ov2640\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "demo_ov2640.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\ShiinaKaze\Desktop\demo_ov2640\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="demo_ov2640.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
